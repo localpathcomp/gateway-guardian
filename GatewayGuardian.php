@@ -1,8 +1,24 @@
 <?php
 namespace App;
 
+/**
+ * @package App
+ * @author Garrick Crouch <services@localpathcomputing.com>
+ * @version 0.1.0
+ * @access public
+ * @see https://github.com/localpathcomp/gateway-guardian
+ */
+
 class GatewayGuardian
 {
+    /**
+     * exits script execution with error message on invalid HTTP requests
+     * 
+     * @param string $headerToken name of your HTTP header token your're expecting
+     * @param string $sessionToken name of your SESSION token for valid users
+     * @param mixed $requestMethod HTTP verb for acceptable request methods
+     * @param boolean $checkRequest whether we should verify request methods
+     */
 
     private $headerToken;
     private $sessionToken;
@@ -23,9 +39,7 @@ class GatewayGuardian
 
     protected function verifyRequestMethod()
     {
-        if (in_array($_SERVER['REQUEST_METHOD'], $this->requestMethod, true)) {
-
-        } else { 
+        if (!in_array($_SERVER['REQUEST_METHOD'], $this->requestMethod, true)) {
 
             http_response_code(400);
             header('Content-Type: application/json');
@@ -59,7 +73,7 @@ class GatewayGuardian
 
             }
 
-            if (isset($_SERVER['HTTP_X_CSRF_TOKEN'])) {
+            if (isset($_SERVER[$this->headerToken])) {
 
                 if (!hash_equals($_SESSION[$this->sessionToken], $_SERVER[$this->headerToken])) {
 

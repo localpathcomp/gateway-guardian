@@ -16,7 +16,7 @@ Embed the CSRF Token in the document `<meta>` tag, JavaScript `const`, or as an 
 <meta name="X-CSRF-TOKEN" content="<?php echo htmlentities($token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
 ```
 ```php
-const csrfToken = <?php echo htmlentities($token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>
+const csrfToken = '<?php echo htmlentities($token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>'
 ```
 ```php
 <input type="hidden" name="X-CSRF-TOKEN" value="<?php echo htmlentities($token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
@@ -64,7 +64,7 @@ Create a composer.json file like this:
 ```
 Using a shell update your Composer class dependencies or install for the first time like this:
 ```sh
-$ /usr/bin/php7.3-cli composer.phar dump-autoloader -o -d my-project/
+$ /usr/bin/php7.3-cli composer.phar dump-autoload -o -d my-project/
 ```
 **Composer will install its dependencies & update its class definitions for optimization.**
 *requires Composer to be installed on your server*
@@ -84,6 +84,7 @@ $gatewayGuardian = new GatewayGuardian('HTTP_X_CSRF_TOKEN', 'token', 'POST', tru
 **You may need to adjust how you require your autoloader file in relation to your endpoint!**
 
 When you service a request the instantiated `$gatewayGuardian` will provide the security check for you.
+
 *make sure you provide the HTTP header name you are using on the client as well as the `$_SESSION['']` name of your token*
 
 You may provide the HTTP verb that is allowed also or decline to have that check by setting the `$checkRequest` parameter to false
