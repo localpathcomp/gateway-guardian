@@ -67,6 +67,7 @@ Using a shell update your Composer class dependencies or install for the first t
 $ /usr/bin/php7.3-cli composer.phar dump-autoload -o -d my-project/
 ```
 **Composer will install its dependencies & update its class definitions for optimization.**
+
 *requires Composer to be installed on your server*
 
 Next we can our endpoint like this:
@@ -79,12 +80,16 @@ use App\GatewayGuardian;
 session_start();
 require_once dirname(__DIR__, 2) . '/vendor/autoload.php';
 
-$gatewayGuardian = new GatewayGuardian('HTTP_X_CSRF_TOKEN', 'token', 'POST', true);
+$gatewayGuardian = new GatewayGuardian('X_CSRF_TOKEN', 'token', array('POST'), true);
 ```
 **You may need to adjust how you require your autoloader file in relation to your endpoint!**
 
 When you service a request the instantiated `$gatewayGuardian` will provide the security check for you.
 
 *make sure you provide the HTTP header name you are using on the client as well as the `$_SESSION['']` name of your token*
+
+**Use underscores `_` in place of hyphens when passing the name of your HTTP header token name**
+
+If your HTTP header CSRF Token name is `MY-COOL-CSRF-TOKEN` then you'll pass its name as `MY_COOL_CSRF_TOKEN` for example
 
 You may provide the HTTP verb that is allowed also or decline to have that check by setting the `$checkRequest` parameter to false

@@ -35,7 +35,7 @@ class GatewayGuardian
     public function __construct($headerToken, $sessionToken, $requestMethod = array('GET', 'POST'), $checkRequest = true)
     {
 
-        $this->headerToken = $headerToken;
+        $this->headerToken = 'HTTP_' . $headerToken;
         $this->sessionToken = $sessionToken;
         $this->requestMethod = $requestMethod;
         $this->checkRequest = $checkRequest;
